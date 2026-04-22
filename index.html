@@ -1410,24 +1410,11 @@ const chatBody = document.getElementById('chatBody');
 const chatInput = document.getElementById('chatInput');
 const chatSend = document.getElementById('chatSend');
 
+// URL du backend chatbot — remplace par l'URL de ton Cloudflare Worker
+// (voir cloudflare-worker/README.md pour le déploiement)
+const CHAT_API_URL = "https://REMPLACE-MOI.workers.dev";
+
 const chatHistory = [];
-const systemPrompt = `Tu es l'assistant virtuel de Jean-Pierre, fondateur de Babatounde Digital Services. Tu parles principalement en français (mais réponds en anglais si on te parle en anglais).
-
-Jean-Pierre propose :
-- Création de sites web sur mesure (vitrine, e-commerce, landing pages)
-- Chatbots IA (WhatsApp, Messenger, web) connectés à Claude/OpenRouter
-- Automatisations n8n (devis automatique, social media, CRM WhatsApp)
-- Dashboards métier (gestion de stock, KPIs)
-- Contenu vidéo (CapCut, HeyGen, ElevenLabs)
-- Packs présence digitale tout-en-un
-
-Zones d'intervention : Afrique (Bénin, Cotonou) et diaspora (USA, Minnesota), à distance partout dans le monde.
-Prix : à partir de $450 USD pour le pack démarrage.
-Devise : "Build in silence. Rise in thunder."
-
-Méthode en 4 étapes : 1) Cadrage (brief + devis ferme), 2) Design (maquette validée), 3) Build (développement avec preview en direct), 4) Lancement (mise en ligne + 1 mois de support).
-
-Ton rôle : répondre aux questions sur les services, expliquer la méthode, aider à cadrer un besoin, orienter vers le formulaire de contact pour les devis précis. Sois concis (3-4 phrases max), chaleureux, direct, professionnel. Ne cite jamais de noms de clients. Utilise quelques emojis avec parcimonie.`;
 
 function addMsg(content, role = 'bot') {
   const div = document.createElement('div');
@@ -1463,22 +1450,17 @@ async function sendMessage() {
   const typing = addTyping();
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch(CHAT_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 400,
-        system: systemPrompt,
-        messages: chatHistory
-      })
+      body: JSON.stringify({ messages: chatHistory })
     });
     const data = await res.json();
     typing.remove();
-    const reply = data.content
-      ?.filter(i => i.type === 'text')
-      .map(i => i.text)
-      .join('\n') || "Désolé, je n'ai pas pu répondre. Essayez à nouveau ou utilisez le formulaire de contact.";
+    if (!res.ok) {
+      throw new Error(data?.error || `HTTP ${res.status}`);
+    }
+    const reply = data.reply || "Désolé, je n'ai pas pu répondre. Essayez à nouveau ou utilisez le formulaire de contact.";
     addMsg(reply, 'bot');
     chatHistory.push({ role: 'assistant', content: reply });
   } catch (err) {
