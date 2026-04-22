@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jean-Pierre — Babatounde Digital Services // Web & AI Automation</title>
+<meta name="description" content="Portfolio de Jean-Pierre — Développeur web & architecte d'automatisations IA. Sites, chatbots, workflows n8n pour l'Afrique et la diaspora." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #05070a;
+    --bg-2: #0a0e14;
+    --ink: #e6f1ff;
+    --ink-dim: #7a8ba3;
+    --ink-dimmer: #3d4a5f;
+    --accent: #00f0ff;        /* cyan */
+    --accent-2: #ff2e88;      /* magenta */
+    --accent-3: #c4ff00;      /* acid lime */
+    --line: rgba(0, 240, 255, 0.12);
+    --line-strong: rgba(0, 240, 255, 0.35);
+    --glass: rgba(10, 14, 20, 0.6);
+
+    --f-display: 'Orbitron', sans-serif;
+    --f-mono: 'JetBrains Mono', monospace;
+    --f-body: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--f-body);
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+    line-height: 1.5;
+    cursor: default;
+  }
+
+  /* ---------- GLOBAL ATMOSPHERE ---------- */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 80%);
+    pointer-events: none;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .scan::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 240, 255, 0.02) 3px,
+      transparent 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-1 { width: 500px; height: 500px; background: var(--accent); opacity: 0.12; top: -100px; left: -100px; }
+  .glow-2 { width: 400px; height: 400px; background: var(--accent-2); opacity: 0.08; bottom: 10%; right: -100px; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(5, 7, 10, 0.55);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .logo {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--accent);
+    display: grid;
+    place-items: center;
+    font-family: var(--f-mono);
+    font-size: 14px;
+    color: var(--accent);
+    position: relative;
+    transform: rotate(45deg);
+  }
+  .logo-mark span { transform: rotate(-45deg); font-weight: 700; }
+  .logo-mark::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 1px solid var(--line-strong);
+    opacity: 0.5;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+    font-family: var(--f-mono);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: var(--ink-dim);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .nav-links a::before {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::before { width: 100%; }
+
+  .nav-cta {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .nav-cta:hover {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    z-index: 3;
+    padding: 160px 40px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .hero-meta {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-meta::before {
+    content: "";
+    width: 40px; height: 1px;
+    background: var(--accent);
+  }
+  .hero-meta .blink {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 1.2s infinite;
+    box-shadow: 0 0 10px var(--accent);
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .hero h1 {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+  .hero h1 .glitch-word {
+    display: inline-block;
+    position: relative;
+    color: var(--accent);
+  }
+  .hero h1 .glitch-word::before,
+  .hero h1 .glitch-word::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+  }
+  .hero h1 .glitch-word::before {
+    color: var(--accent-2);
+    animation: glitch-1 3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  }
+  .hero h1 .glitch-word::after {
+    color: var(--accent-3);
+    animation: glitch-2 3s infinite;
+    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  }
+  @keyframes glitch-1 {
+    0%, 90%, 100% { transform: translate(0); opacity: 0; }
+    92% { transform: translate(-3px, -2px); opacity: 0.8; }
+    94% { transform: translate(2px, 1px); opacity: 0.8; }
+    96% { transform: translate(-1px, 2px); opacity: 0.8; }
+  }
+  @keyframes glitch-2 {
+    0%, 90%, 100% { transform: translate(0); opacity: 0; }
+    92% { transform: translate(2px, 1px); opacity: 0.6; }
+    94% { transform: translate(-2px, -1px); opacity: 0.6; }
+    96% { transform: translate(1px, -2px); opacity: 0.6; }
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--ink-dim);
+    max-width: 520px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+  .hero p strong { color: var(--ink); font-weight: 700; }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-primary, .btn-ghost {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 28px;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+  .btn-primary:hover::before { transform: translateX(100%); }
+  .btn-primary:hover {
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.6);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+  }
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Hero right side: terminal */
+  .terminal {
+    background: var(--bg-2);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 240, 255, 0.1), inset 0 0 40px rgba(0, 240, 255, 0.02);
+    position: relative;
+    overflow: hidden;
+  }
+  .terminal::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: scan-line 4s linear infinite;
+  }
+  @keyframes scan-line {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(400px); }
+  }
+
+  .terminal-head {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(0, 240, 255, 0.03);
+    justify-content: space-between;
+  }
+  .terminal-dots { display: flex; gap: 8px; }
+  .terminal-dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--ink-dimmer);
+  }
+  .terminal-dots span:first-child { background: var(--accent-2); }
+  .terminal-dots span:nth-child(2) { background: var(--accent-3); opacity: 0.5; }
+  .terminal-dots span:last-child { background: var(--accent); opacity: 0.5; }
+  .terminal-title {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .terminal-body {
+    padding: 24px 20px;
+    font-family: var(--f-mono);
+    font-size: 13px;
+    line-height: 1.9;
+    min-height: 340px;
+  }
+  .line { display: block; }
+  .prompt { color: var(--accent); }
+  .cmd { color: var(--ink); }
+  .comment { color: var(--ink-dimmer); font-style: italic; }
+  .string { color: var(--accent-3); }
+  .key { color: var(--accent-2); }
+  .cursor {
+    display: inline-block;
+    width: 8px; height: 16px;
+    background: var(--accent);
+    animation: blink 1s infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section {
+    position: relative;
+    z-index: 3;
+    padding: 120px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::before {
+    content: "";
+    width: 50px; height: 1px;
+    background: var(--accent);
+  }
+  .section-label .idx {
+    color: var(--ink-dimmer);
+    font-size: 10px;
+  }
+
+  .section-title {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 60px;
+    max-width: 900px;
+  }
+  .section-title em {
+    font-style: normal;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 17px;
+    color: var(--ink-dim);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+  .about-text p strong { color: var(--ink); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+  }
+  .stat {
+    background: var(--bg);
+    padding: 32px 24px;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .stat:hover { background: var(--bg-2); }
+  .stat-num {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: 48px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .stat-label {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  /* ---------- SERVICES (feature cards) ---------- */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .service {
+    border: 1px solid var(--line-strong);
+    background: linear-gradient(180deg, rgba(10,14,20,0.4), rgba(5,7,10,0.4));
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+  .service::before {
+    content: attr(data-n);
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    color: var(--ink-dimmer);
+    letter-spacing: 0.2em;
+  }
+  .service::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--accent);
+    transition: width 0.5s;
+  }
+  .service:hover::after { width: 100%; }
+  .service:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    background: linear-gradient(180deg, rgba(0,240,255,0.04), rgba(5,7,10,0.4));
+  }
+  .service-icon {
+    width: 48px; height: 48px;
+    border: 1px solid var(--accent);
+    display: grid;
+    place-items: center;
+    margin-bottom: 24px;
+    color: var(--accent);
+    font-family: var(--f-mono);
+    font-weight: 700;
+    font-size: 18px;
+    transition: all 0.3s;
+  }
+  .service:hover .service-icon {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 20px rgba(0,240,255,0.4);
+  }
+  .service h3 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .service p {
+    color: var(--ink-dim);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ---------- PORTFOLIO ---------- */
+  .projects {
+    display: grid;
+    gap: 40px;
+  }
+  .project {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 40px;
+    padding: 40px 0;
+    border-top: 1px solid var(--line-strong);
+    align-items: start;
+    cursor: pointer;
+    transition: all 0.4s;
+  }
+  .project:hover {
+    padding-left: 20px;
+    background: linear-gradient(90deg, rgba(0,240,255,0.03), transparent);
+  }
+  .project:last-child { border-bottom: 1px solid var(--line-strong); }
+
+  .project-meta {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .project-meta .year {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .project-title {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 32px;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+  }
+  .project:hover .project-title { color: var(--accent); }
+  .project-desc {
+    color: var(--ink-dim);
+    font-size: 15px;
+    max-width: 640px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-dim);
+  }
+  .project-arrow {
+    font-family: var(--f-mono);
+    font-size: 24px;
+    color: var(--ink-dim);
+    transition: all 0.4s;
+    align-self: center;
+  }
+  .project:hover .project-arrow {
+    color: var(--accent);
+    transform: translateX(8px);
+  }
+
+  /* ---------- BOOKING / QUOTE ---------- */
+  .booking-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .booking-card {
+    border: 1px solid var(--line-strong);
+    padding: 40px;
+    background: var(--bg-2);
+    position: relative;
+  }
+  .booking-card::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 40px; height: 40px;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+  }
+  .booking-card::after {
+    content: "";
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 40px; height: 40px;
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+  .booking-card h3 {
+    font-family: var(--f-display);
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .booking-card .price {
+    font-family: var(--f-mono);
+    color: var(--accent);
+    font-size: 14px;
+    margin-bottom: 24px;
+    letter-spacing: 0.1em;
+  }
+  .booking-card ul {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+  .booking-card li {
+    padding: 10px 0;
+    color: var(--ink-dim);
+    font-size: 14px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    padding-left: 22px;
+  }
+  .booking-card li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-family: var(--f-mono);
+  }
+  .booking-card li:last-child { border-bottom: none; }
+
+  /* Form */
+  .quote-form {
+    display: grid;
+    gap: 18px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field label {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .field input, .field textarea, .field select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line-strong);
+    padding: 12px 0;
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--accent);
+  }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .field select option { background: var(--bg-2); }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-submit {
+    margin-top: 10px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 16px;
+    font-family: var(--f-mono);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .form-submit:hover {
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.5);
+  }
+  .form-status {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--accent-3);
+    margin-top: 10px;
+    min-height: 20px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    position: relative;
+    z-index: 3;
+    padding: 60px 40px 30px;
+    border-top: 1px solid var(--line-strong);
+    margin-top: 60px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-brand {
+    font-family: var(--f-display);
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .footer-brand em { color: var(--accent); font-style: normal; }
+  .footer-tag {
+    font-family: var(--f-mono);
+    color: var(--ink-dim);
+    font-size: 13px;
+    max-width: 400px;
+  }
+  .footer h4 {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .footer ul { list-style: none; }
+  .footer li { margin-bottom: 10px; }
+  .footer a {
+    color: var(--ink-dim);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  .footer a:hover { color: var(--accent); }
+  .footer-bottom {
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    color: var(--ink-dimmer);
+    letter-spacing: 0.1em;
+  }
+
+  /* ---------- CHATBOT ---------- */
+  .chat-toggle {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 64px; height: 64px;
+    background: var(--bg-2);
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    z-index: 200;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+    transition: all 0.3s;
+  }
+  .chat-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(0, 240, 255, 0.6);
+  }
+  .chat-toggle::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    opacity: 0.3;
+    animation: pulse-ring 2s infinite;
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+  .chat-toggle svg { width: 28px; height: 28px; stroke: var(--accent); }
+
+  .chat-panel {
+    position: fixed;
+    bottom: 110px; right: 30px;
+    width: 380px;
+    max-width: calc(100vw - 40px);
+    height: 540px;
+    max-height: calc(100vh - 140px);
+    background: var(--bg-2);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 240, 255, 0.3), 0 0 0 1px rgba(0, 240, 255, 0.1);
+    overflow: hidden;
+  }
+  .chat-panel.open { display: flex; animation: chat-in 0.3s ease-out; }
+  @keyframes chat-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-head {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--line-strong);
+    background: linear-gradient(180deg, rgba(0,240,255,0.08), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .chat-head-title {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .chat-head-title .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--accent-3);
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 8px var(--accent-3);
+    animation: blink 2s infinite;
+  }
+  .chat-close {
+    background: transparent;
+    border: none;
+    color: var(--ink-dim);
+    cursor: pointer;
+    font-family: var(--f-mono);
+    font-size: 18px;
+  }
+  .chat-close:hover { color: var(--accent); }
+
+  .chat-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--bg);
+  }
+  .chat-body::-webkit-scrollbar { width: 4px; }
+  .chat-body::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  .msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: var(--f-body);
+  }
+  .msg.bot {
+    align-self: flex-start;
+    background: rgba(0, 240, 255, 0.08);
+    border-left: 2px solid var(--accent);
+    color: var(--ink);
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: rgba(255, 46, 136, 0.1);
+    border-right: 2px solid var(--accent-2);
+    color: var(--ink);
+  }
+  .msg.meta {
+    align-self: center;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    color: var(--ink-dimmer);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 0;
+  }
+
+  .typing {
+    align-self: flex-start;
+    display: flex;
+    gap: 4px;
+    padding: 14px;
+  }
+  .typing span {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: typing-dot 1.4s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing-dot {
+    0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-4px); }
+  }
+
+  .chat-input-wrap {
+    padding: 14px;
+    border-top: 1px solid var(--line-strong);
+    display: flex;
+    gap: 10px;
+    background: var(--bg);
+  }
+  .chat-input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    padding: 10px 14px;
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-send {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0 18px;
+    font-family: var(--f-mono);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .chat-send:hover { box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
+  .chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ---------- REVEAL ANIMATIONS ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 960px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 120px 20px 60px; gap: 40px; }
+    section { padding: 80px 20px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .project { grid-template-columns: 1fr; gap: 16px; padding: 30px 0; }
+    .booking-wrap { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 10px; }
+    .chat-panel { width: calc(100vw - 20px); right: 10px; bottom: 100px; }
+    .chat-toggle { bottom: 20px; right: 20px; }
+  }
+</style>
+</head>
+<body class="scan">
+
+<div class="grid-bg"></div>
+<div class="noise"></div>
+<div class="glow-orb glow-1"></div>
+<div class="glow-orb glow-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <span class="logo-mark"><span>JP</span></span>
+    BABATOUNDE<span style="color: var(--accent);">//</span>DS
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">// Profil</a></li>
+    <li><a href="#services">// Services</a></li>
+    <li><a href="#work">// Projets</a></li>
+    <li><a href="#contact">// Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">→ Démarrer</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-left reveal">
+    <div class="hero-meta">
+      <span class="blink"></span>
+      SYSTEM ONLINE // COTONOU ⇌ MINNESOTA
+    </div>
+    <h1>
+      Je construis<br>
+      des <span class="glitch-word" data-text="systèmes">systèmes</span><br>
+      qui <em style="font-style: normal; color: var(--accent-3);">travaillent</em><br>
+      pendant que<br>
+      vous dormez.
+    </h1>
+    <p>
+      Je m'appelle <strong>Jean-Pierre</strong>. Développeur web & architecte d'automatisations IA. Je conçois des sites, des chatbots et des workflows <strong>n8n</strong> pour les entrepreneurs africains et la diaspora — <strong>build in silence, rise in thunder.</strong>
+    </p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">Voir les projets <span>→</span></a>
+      <a href="#contact" class="btn-ghost">Demander un devis</a>
+    </div>
+  </div>
+
+  <div class="hero-right reveal" style="transition-delay: 0.2s;">
+    <div class="terminal">
+      <div class="terminal-head">
+        <div class="terminal-dots"><span></span><span></span><span></span></div>
+        <div class="terminal-title">~/jean-pierre/stack.log</div>
+      </div>
+      <div class="terminal-body">
+        <span class="line"><span class="prompt">$</span> <span class="cmd">whoami</span></span>
+        <span class="line"><span class="string">"Jean-Pierre // Babatounde Digital Services"</span></span>
+        <span class="line"><span class="comment">// Web + AI, bridging Africa & diaspora</span></span>
+        <span class="line">&nbsp;</span>
+        <span class="line"><span class="prompt">$</span> <span class="cmd">cat skills.json</span></span>
+        <span class="line">{</span>
+        <span class="line">&nbsp;&nbsp;<span class="key">"web"</span>: [<span class="string">"HTML"</span>, <span class="string">"CSS"</span>, <span class="string">"JS"</span>],</span>
+        <span class="line">&nbsp;&nbsp;<span class="key">"ai"</span>: [<span class="string">"n8n"</span>, <span class="string">"Claude"</span>, <span class="string">"OpenRouter"</span>],</span>
+        <span class="line">&nbsp;&nbsp;<span class="key">"audio"</span>: [<span class="string">"ElevenLabs"</span>, <span class="string">"Suno"</span>],</span>
+        <span class="line">&nbsp;&nbsp;<span class="key">"video"</span>: [<span class="string">"CapCut"</span>, <span class="string">"HeyGen"</span>],</span>
+        <span class="line">&nbsp;&nbsp;<span class="key">"status"</span>: <span class="string">"available_for_work"</span></span>
+        <span class="line">}</span>
+        <span class="line">&nbsp;</span>
+        <span class="line"><span class="prompt">$</span> <span class="cmd">./deploy.sh</span><span class="cursor"></span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">
+    <span class="idx">[ 01 ]</span> Profil opérateur
+  </div>
+  <h2 class="section-title reveal">
+    Entre <em>Cotonou</em> et <em>Minnesota</em>, je bâtis<br>des ponts numériques.
+  </h2>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Je suis entrepreneur et développeur. Mon métier, c'est <strong>transformer des idées en systèmes qui tournent tout seuls</strong> — des sites vitrines aux chatbots IA, en passant par des workflows d'automatisation n8n.</p>
+      <p>Mes clients ? Des boutiques à Cotonou, des labos de cosmétiques, des salons de beauté, des créateurs de la diaspora. Chacun a besoin de la même chose : <strong>de la présence en ligne qui convertit</strong>, et des outils qui libèrent leur temps.</p>
+      <p>En parallèle, je produis du contenu motivation sur TikTok & YouTube — parce que le digital, c'est aussi raconter des histoires qui donnent envie d'agir.</p>
+    </div>
+
+    <div class="stats-grid reveal" style="transition-delay: 0.2s;">
+      <div class="stat">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Sites livrés</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Continents servis</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Automatisations</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">FR/EN</div>
+        <div class="stat-label">Bilingue</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label reveal">
+    <span class="idx">[ 02 ]</span> Modules disponibles
+  </div>
+  <h2 class="section-title reveal">
+    Ce que je <em>construis</em>.
+  </h2>
+
+  <div class="services-grid">
+    <div class="service reveal" data-n="S/01">
+      <div class="service-icon">&lt;/&gt;</div>
+      <h3>Sites web sur mesure</h3>
+      <p>Vitrines, e-commerce, landing pages. HTML/CSS/JS pur ou CMS léger. Livrés bilingues FR/EN, pensés mobile-first, optimisés pour convertir.</p>
+    </div>
+    <div class="service reveal" data-n="S/02" style="transition-delay: 0.1s;">
+      <div class="service-icon">◈</div>
+      <h3>Chatbots IA</h3>
+      <p>Assistants WhatsApp, Messenger, site web. Connectés à Claude ou OpenRouter. Ils qualifient vos leads, répondent H24 et prennent des rendez-vous à votre place.</p>
+    </div>
+    <div class="service reveal" data-n="S/03" style="transition-delay: 0.2s;">
+      <div class="service-icon">⚙</div>
+      <h3>Automatisations n8n</h3>
+      <p>Devis automatiques, génération de contenus social media, CRM connecté au WhatsApp. Vous dormez, les workflows bossent.</p>
+    </div>
+    <div class="service reveal" data-n="S/04" style="transition-delay: 0.3s;">
+      <div class="service-icon">◉</div>
+      <h3>Dashboards métier</h3>
+      <p>Gestion de stock, suivi des commandes, pilotage des KPIs. Comme celui que j'ai construit pour Laboratoire Luxe Cosmétique.</p>
+    </div>
+    <div class="service reveal" data-n="S/05" style="transition-delay: 0.4s;">
+      <div class="service-icon">▶</div>
+      <h3>Contenu vidéo</h3>
+      <p>Courts-métrages motivation, avatars IA (HeyGen), voix ElevenLabs, montage CapCut. Format TikTok & YouTube Shorts prêt à publier.</p>
+    </div>
+    <div class="service reveal" data-n="S/06" style="transition-delay: 0.5s;">
+      <div class="service-icon">◆</div>
+      <h3>Packs présence digitale</h3>
+      <p>Site + chatbot + automatisations + fiche Google. L'offre tout-en-un pour les entrepreneurs qui veulent tout lancer d'un coup.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="work">
+  <div class="section-label reveal">
+    <span class="idx">[ 03 ]</span> Déploiements
+  </div>
+  <h2 class="section-title reveal">
+    Projets en <em>production</em>.
+  </h2>
+
+  <div class="projects">
+    <div class="project reveal">
+      <div class="project-meta">
+        <span class="year">2025</span>
+        E-commerce<br>// Cotonou
+      </div>
+      <div>
+        <div class="project-title">NONO SHOP</div>
+        <div class="project-desc">Site e-commerce pour une boutique mode & riz à Cotonou. Palette bleu nuit / or, catalogue produits, formulaire de commande intégré WhatsApp.</div>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JS</span>
+          <span class="tag">WhatsApp API</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-meta">
+        <span class="year">2025</span>
+        Dashboard<br>// Cosmétique
+      </div>
+      <div>
+        <div class="project-title">Laboratoire Luxe Cosmétique</div>
+        <div class="project-desc">Dashboard de gestion de stock pour un labo de cosmétique (bouteilles, capsules, cartons). Interface noir & or, autonome, sans base de données externe.</div>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">JS</span>
+          <span class="tag">LocalStorage</span>
+          <span class="tag">Luxury UI</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-meta">
+        <span class="year">2025</span>
+        Booking<br>// Beauté
+      </div>
+      <div>
+        <div class="project-title">Nail Salon — Site & Réservation</div>
+        <div class="project-desc">Site e-commerce et de réservation pour un salon de manucure. Design pastel & rose, catalogue de prestations, prise de rendez-vous en ligne.</div>
+        <div class="tags">
+          <span class="tag">E-commerce</span>
+          <span class="tag">Booking</span>
+          <span class="tag">Pastel</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-meta">
+        <span class="year">2025</span>
+        Site pro<br>// Bénin ⇌ USA
+      </div>
+      <div>
+        <div class="project-title">Babatounde Digital Services</div>
+        <div class="project-desc">Mon propre site vitrine bilingue FR/EN, avec formulaire de commande de services. La face avant de l'agence.</div>
+        <div class="tags">
+          <span class="tag">Bilingue</span>
+          <span class="tag">Vitrine</span>
+          <span class="tag">Lead gen</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-meta">
+        <span class="year">2025</span>
+        Contenu<br>// TikTok + YT
+      </div>
+      <div>
+        <div class="project-title">"Boy &amp; Wolf" — Motivation Series</div>
+        <div class="project-desc">Série de vidéos courtes motivation avec personnages récurrents (garçon et loup). Production CapCut, voix ElevenLabs, signature "Build in silence. Rise in thunder."</div>
+        <div class="tags">
+          <span class="tag">CapCut</span>
+          <span class="tag">ElevenLabs</span>
+          <span class="tag">Short-form</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING / QUOTE -->
+<section id="contact">
+  <div class="section-label reveal">
+    <span class="idx">[ 04 ]</span> Transmission
+  </div>
+  <h2 class="section-title reveal">
+    Prêt à <em>automatiser</em> votre business ?
+  </h2>
+
+  <div class="booking-wrap">
+    <div class="booking-card reveal">
+      <h3>Pack Démarrage Digital</h3>
+      <div class="price">// À partir de $450 USD</div>
+      <ul>
+        <li>Site vitrine responsive (FR ou EN)</li>
+        <li>Formulaire contact → WhatsApp</li>
+        <li>Fiche Google Business configurée</li>
+        <li>Livraison sous 7 à 10 jours</li>
+        <li>1 mois de support inclus</li>
+      </ul>
+      <p style="font-family: var(--f-mono); font-size: 11px; color: var(--ink-dim); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 20px;">
+        → Autres packs : E-commerce, Chatbot IA, Automatisation n8n
+      </p>
+    </div>
+
+    <form class="quote-form reveal" id="quoteForm" style="transition-delay: 0.2s;">
+      <div class="field-row">
+        <div class="field">
+          <label for="name">// Nom</label>
+          <input type="text" id="name" name="name" required placeholder="Votre nom" />
+        </div>
+        <div class="field">
+          <label for="email">// Email</label>
+          <input type="email" id="email" name="email" required placeholder="vous@domaine.com" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="service">// Service souhaité</label>
+        <select id="service" name="service" required>
+          <option value="">Sélectionner...</option>
+          <option value="site">Site web sur mesure</option>
+          <option value="chatbot">Chatbot IA</option>
+          <option value="automation">Automatisation n8n</option>
+          <option value="dashboard">Dashboard métier</option>
+          <option value="video">Contenu vidéo</option>
+          <option value="pack">Pack présence digitale complète</option>
+          <option value="other">Autre / à discuter</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="budget">// Budget indicatif (USD)</label>
+        <select id="budget" name="budget">
+          <option value="">À définir ensemble</option>
+          <option value="300-600">$300 – $600</option>
+          <option value="600-1200">$600 – $1200</option>
+          <option value="1200-3000">$1200 – $3000</option>
+          <option value="3000+">$3000+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="brief">// Brief du projet</label>
+        <textarea id="brief" name="brief" required placeholder="Décrivez votre projet en quelques lignes..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">→ Envoyer la demande</button>
+      <div class="form-status" id="formStatus"></div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Babatounde<em>//</em>DS</div>
+      <p class="footer-tag">Web, IA & automatisations pour l'Afrique et la diaspora. Build in silence. Rise in thunder.</p>
+    </div>
+    <div>
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#about">Profil</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Projets</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connexion</h4>
+      <ul>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="mailto:contact@babatounde.digital">Email</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 JEAN-PIERRE / BABATOUNDE DIGITAL SERVICES</div>
+    <div>COTONOU ⇌ MINNESOTA // V1.0</div>
+  </div>
+</footer>
+
+<!-- CHATBOT -->
+<button class="chat-toggle" id="chatToggle" aria-label="Ouvrir le chat">
+  <svg fill="none" stroke-width="1.8" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+  </svg>
+</button>
+
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div class="chat-head-title"><span class="dot"></span>Assistant // JP</div>
+    <button class="chat-close" id="chatClose">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="msg meta">— SESSION DÉMARRÉE —</div>
+    <div class="msg bot">Salut 👋 Je suis l'assistant de Jean-Pierre. Posez-moi vos questions sur les services, les projets, ou demandez-moi de vous aider à cadrer votre besoin.</div>
+  </div>
+  <div class="chat-input-wrap">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Tapez votre message..." />
+    <button class="chat-send" id="chatSend">→</button>
+  </div>
+</div>
+
+<script>
+// --- REVEAL ON SCROLL ---
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// --- FORM SUBMIT (local demo) ---
+const quoteForm = document.getElementById('quoteForm');
+const formStatus = document.getElementById('formStatus');
+quoteForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(quoteForm).entries());
+  formStatus.textContent = '✓ Demande envoyée. Je vous réponds sous 24h sur ' + (data.email || 'votre email') + '.';
+  formStatus.style.color = 'var(--accent-3)';
+  quoteForm.reset();
+  setTimeout(() => { formStatus.textContent = ''; }, 8000);
+});
+
+// --- CHATBOT ---
+const chatToggle = document.getElementById('chatToggle');
+const chatPanel = document.getElementById('chatPanel');
+const chatClose = document.getElementById('chatClose');
+const chatBody = document.getElementById('chatBody');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+
+const chatHistory = [];
+const systemPrompt = `Tu es l'assistant virtuel de Jean-Pierre, fondateur de Babatounde Digital Services. Tu parles principalement en français (mais réponds en anglais si on te parle en anglais).
+
+Jean-Pierre propose :
+- Création de sites web sur mesure (vitrine, e-commerce, landing pages)
+- Chatbots IA (WhatsApp, Messenger, web) connectés à Claude/OpenRouter
+- Automatisations n8n (devis automatique, social media, CRM WhatsApp)
+- Dashboards métier (gestion de stock, KPIs)
+- Contenu vidéo (CapCut, HeyGen, ElevenLabs)
+- Packs présence digitale tout-en-un
+
+Ses clients : NONO SHOP (Cotonou), Laboratoire Luxe Cosmétique, Beauty Store, un salon de nail.
+Zones : Afrique (Bénin, Cotonou) et diaspora (USA, Minnesota).
+Prix : à partir de $450 USD pour le pack démarrage.
+Devise : "Build in silence. Rise in thunder."
+
+Ton rôle : répondre aux questions sur les services, aider à cadrer un besoin, orienter vers le formulaire de contact pour les devis précis. Sois concis (3-4 phrases max), chaleureux, direct. Utilise quelques emojis avec parcimonie.`;
+
+function addMsg(content, role = 'bot') {
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.textContent = content;
+  chatBody.appendChild(div);
+  chatBody.scrollTop = chatBody.scrollHeight;
+  return div;
+}
+
+function addTyping() {
+  const div = document.createElement('div');
+  div.className = 'typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  chatBody.appendChild(div);
+  chatBody.scrollTop = chatBody.scrollHeight;
+  return div;
+}
+
+chatToggle.addEventListener('click', () => {
+  chatPanel.classList.toggle('open');
+  if (chatPanel.classList.contains('open')) chatInput.focus();
+});
+chatClose.addEventListener('click', () => chatPanel.classList.remove('open'));
+
+async function sendMessage() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+  addMsg(text, 'user');
+  chatHistory.push({ role: 'user', content: text });
+  chatInput.value = '';
+  chatSend.disabled = true;
+  const typing = addTyping();
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 400,
+        system: systemPrompt,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    typing.remove();
+    const reply = data.content
+      ?.filter(i => i.type === 'text')
+      .map(i => i.text)
+      .join('\n') || "Désolé, je n'ai pas pu répondre. Essayez à nouveau ou utilisez le formulaire de contact.";
+    addMsg(reply, 'bot');
+    chatHistory.push({ role: 'assistant', content: reply });
+  } catch (err) {
+    typing.remove();
+    addMsg("⚠ Connexion indisponible. Utilisez le formulaire de contact en attendant.", 'bot');
+    console.error(err);
+  }
+  chatSend.disabled = false;
+  chatInput.focus();
+}
+
+chatSend.addEventListener('click', sendMessage);
+chatInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendMessage();
+});
+</script>
+
+</body>
+</html>
