@@ -1,0 +1,18 @@
+{
+  "name": "babatounde-chatbot-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Worker proxying chat requests to the Anthropic API for the Babatounde Digital Services site.",
+  "type": "module",
+  "main": "src/worker.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}

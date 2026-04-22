@@ -1,0 +1,13 @@
+name = "babatounde-chatbot"
+main = "src/worker.js"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Origines autorisées à appeler le worker (CORS).
+# Ajoute ici l'URL de ton site une fois déployé (sans slash final).
+[vars]
+ALLOWED_ORIGINS = "https://jeanpierrehounkpe225-prog.github.io,http://localhost:8000"
+
+# La clé API Anthropic n'est PAS dans ce fichier.
+# Elle est stockée comme secret Cloudflare via :
+#   wrangler secret put ANTHROPIC_API_KEY
